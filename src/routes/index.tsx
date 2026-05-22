@@ -12,7 +12,7 @@ import heroPhone from "@/assets/hero-phone.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Supreme — Turn Your Shopify Store Into a Mobile App" },
+      { title: "Victa — Turn Your Shopify Store Into a Mobile App" },
       { name: "description", content: "No-code mobile app builder for Shopify. Boost conversions 5X with native iOS & Android apps. Drag & drop, unlimited push notifications." },
     ],
   }),
@@ -57,7 +57,7 @@ function Nav() {
           <div className="w-9 h-9 rounded-xl bg-gradient-hero shadow-glow flex items-center justify-center">
             <Sparkles className="w-5 h-5 text-primary-foreground" />
           </div>
-          <span className="font-bold text-lg tracking-tight">Supreme</span>
+          <span className="font-bold text-lg tracking-tight">Victa</span>
         </Link>
         <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
           <a href="#features" className="hover:text-foreground transition-colors">Features</a>
@@ -123,7 +123,7 @@ function Hero() {
             <div className="absolute inset-0 bg-gradient-hero blur-3xl opacity-30 rounded-full" />
             <img
               src={heroPhone}
-              alt="Supreme mobile app preview"
+              alt="Victa mobile app preview"
               width={1024}
               height={1024}
               className="relative rounded-3xl shadow-card w-full"
@@ -338,7 +338,7 @@ function CTA() {
               Your mobile empire starts today
             </h2>
             <p className="text-primary-foreground/80 text-lg mb-8 max-w-xl mx-auto">
-              Join 10,000+ Shopify brands shipping faster, converting higher and growing smarter with Supreme.
+              Join 10,000+ Shopify brands shipping faster, converting higher and growing smarter with Victa.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button size="lg" className="bg-background text-foreground hover:bg-background/90 rounded-full h-14 px-8 text-base">
@@ -364,7 +364,7 @@ function Footer() {
             <div className="w-8 h-8 rounded-xl bg-gradient-hero flex items-center justify-center">
               <Sparkles className="w-4 h-4 text-primary-foreground" />
             </div>
-            <span className="font-bold">Supreme</span>
+            <span className="font-bold">Victa</span>
             <span className="text-muted-foreground text-sm ml-3">© 2026 All rights reserved.</span>
           </div>
           <div className="flex gap-6 text-sm text-muted-foreground">
