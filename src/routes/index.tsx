@@ -63,7 +63,7 @@ function Nav() {
           <a href="#features" className="hover:text-foreground transition-colors">Features</a>
           <a href="#how" className="hover:text-foreground transition-colors">How it works</a>
           <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
-          <a href="#testimonials" className="hover:text-foreground transition-colors">Customers</a>
+          <Link to="/documentation" className="hover:text-foreground transition-colors">Resources</Link>
         </div>
         <Button size="sm" className="bg-gradient-hero hover:opacity-90 shadow-glow rounded-full">Get Started</Button>
       </div>
