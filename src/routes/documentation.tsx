@@ -213,24 +213,129 @@ const sections: Section[] = [
   },
 ];
 
-function Accordion({ item }: { item: Item }) {
+function Accordion({ item, index }: { item: Item; index: number }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="rounded-2xl border border-border glass overflow-hidden">
+    <div
+      className={`group relative rounded-2xl border transition-all duration-300 overflow-hidden ${
+        open
+          ? "border-primary/40 bg-gradient-card shadow-glow"
+          : "border-border/60 glass hover:border-primary/30 hover:-translate-y-0.5"
+      }`}
+    >
+      {open && (
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+      )}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center justify-between w-full py-4 px-5 text-left font-semibold transition-colors hover:bg-accent/5"
+        className="flex items-center gap-4 w-full py-5 px-5 text-left"
       >
-        <span className="text-base md:text-lg pr-4">{item.q}</span>
-        <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-          <ChevronDown className={`w-4 h-4 text-primary transition-transform ${open ? "rotate-180" : ""}`} />
+        <span
+          className={`flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold tracking-wider transition-all ${
+            open
+              ? "bg-gradient-hero text-primary-foreground shadow-glow"
+              : "bg-primary/10 text-primary group-hover:bg-primary/20"
+          }`}
+        >
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <span className="flex-1 text-base md:text-lg font-semibold leading-snug">{item.q}</span>
+        <span
+          className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all ${
+            open ? "bg-primary/15 rotate-180" : "bg-accent/5 group-hover:bg-primary/10"
+          }`}
+        >
+          <ChevronDown className="w-4 h-4 text-primary" />
         </span>
       </button>
-      {open && (
-        <div className="px-5 pb-5 text-muted-foreground leading-relaxed text-sm md:text-base">
-          {item.a}
+      <div
+        className={`grid transition-all duration-300 ease-out ${
+          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="px-5 pb-6 pl-[4.5rem] text-muted-foreground leading-relaxed text-sm md:text-base border-t border-border/40 pt-4 mt-1">
+            {item.a}
+          </div>
         </div>
-      )}
+      </div>
+    </div>
+  );
+}
+
+function Sidebar({ active, onSelect }: { active: string; onSelect: (id: string) => void }) {
+  const activeIndex = sections.findIndex((s) => s.id === active);
+  return (
+    <div className="relative lg:sticky lg:top-24">
+      <div className="absolute -inset-px rounded-3xl bg-gradient-hero opacity-20 blur-xl" />
+      <div className="relative glass bg-gradient-card rounded-3xl border border-border/60 p-5 overflow-hidden">
+        <div className="flex items-center gap-2 px-2 pb-4 mb-3 border-b border-border/40">
+          <div className="w-8 h-8 rounded-lg bg-gradient-hero flex items-center justify-center shadow-glow">
+            <BookOpen className="w-4 h-4 text-primary-foreground" />
+          </div>
+          <div>
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Docs</p>
+            <p className="text-sm font-bold leading-none mt-0.5">Contents</p>
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          {sections.map((s) => {
+            const Icon = s.icon;
+            const isActive = active === s.id;
+            return (
+              <button
+                key={s.id}
+                onClick={() => onSelect(s.id)}
+                className={`group relative flex items-center gap-3 w-full py-3 px-3 rounded-xl text-sm transition-all duration-300 ${
+                  isActive
+                    ? "bg-gradient-to-r from-primary/20 via-accent/10 to-transparent text-foreground"
+                    : "hover:bg-accent/5 text-muted-foreground hover:text-foreground hover:translate-x-1"
+                }`}
+              >
+                {isActive && (
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 rounded-r-full bg-gradient-hero shadow-glow" />
+                )}
+                <span
+                  className={`flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center transition-all ${
+                    isActive
+                      ? "bg-gradient-hero text-primary-foreground shadow-glow"
+                      : "bg-primary/5 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                </span>
+                <span className="flex-1 text-left min-w-0">
+                  <span className={`block truncate ${isActive ? "font-semibold" : "font-medium"}`}>
+                    {s.title}
+                  </span>
+                  <span className="block text-[11px] text-muted-foreground/70 truncate mt-0.5">
+                    {s.items.length} articles
+                  </span>
+                </span>
+                <ChevronRight
+                  className={`w-4 h-4 flex-shrink-0 transition-all ${
+                    isActive ? "text-primary translate-x-0.5" : "text-muted-foreground/40 group-hover:translate-x-0.5"
+                  }`}
+                />
+              </button>
+            );
+          })}
+        </div>
+        <div className="mt-5 pt-4 border-t border-border/40">
+          <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
+            <span>Progress</span>
+            <span className="font-semibold text-foreground">
+              {activeIndex + 1}/{sections.length}
+            </span>
+          </div>
+          <div className="h-1.5 rounded-full bg-primary/10 overflow-hidden">
+            <div
+              className="h-full bg-gradient-hero rounded-full transition-all duration-500"
+              style={{ width: `${((activeIndex + 1) / sections.length) * 100}%` }}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
