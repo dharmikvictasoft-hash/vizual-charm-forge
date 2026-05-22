@@ -340,31 +340,6 @@ function Sidebar({ active, onSelect }: { active: string; onSelect: (id: string) 
   );
 }
 
-function Sidebar({ active, onSelect }: { active: string; onSelect: (id: string) => void }) {
-  return (
-    <div className="glass bg-gradient-card rounded-2xl border border-border p-4 lg:sticky lg:top-24">
-      <div className="flex flex-col gap-1">
-        {sections.map((s) => {
-          const Icon = s.icon;
-          const isActive = active === s.id;
-          return (
-            <button
-              key={s.id}
-              onClick={() => onSelect(s.id)}
-              className={`flex items-center gap-3 w-full py-3 px-3 rounded-xl text-sm md:text-base transition-all ${
-                isActive ? "bg-primary/15 text-foreground" : "hover:bg-accent/5 text-muted-foreground"
-              }`}
-            >
-              <Icon className={`w-5 h-5 flex-shrink-0 ${isActive ? "text-primary" : ""}`} />
-              <span className={`flex-1 text-left ${isActive ? "font-semibold" : "font-medium"}`}>{s.title}</span>
-              <ChevronRight className={`w-4 h-4 flex-shrink-0 ${isActive ? "text-primary" : "text-muted-foreground/60"}`} />
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
 
 function Documentation() {
   const [active, setActive] = useState(sections[0].id);
