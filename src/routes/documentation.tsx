@@ -400,8 +400,9 @@ function Documentation() {
                   <p className="text-muted-foreground">{current.subtitle}</p>
                 </div>
                 <div className="space-y-4">
-                  {current.items.map((item) => (
-                    <Accordion key={item.id} item={item} index={i} />)
+                  {current.items.map((item, i) => (
+                    <Accordion key={item.id} item={item} index={i} />
+                  ))}
                 </div>
 
                 <div className="mt-10 flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-border">
