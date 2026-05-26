@@ -217,35 +217,36 @@ function Accordion({ item, index }: { item: Item; index: number }) {
   const [open, setOpen] = useState(false);
   return (
     <div
-      className={`group relative rounded-2xl border transition-all duration-300 overflow-hidden ${
+      className={`group relative rounded-2xl border bg-card transition-all duration-300 overflow-hidden ${
         open
-          ? "border-primary/40 bg-gradient-card shadow-glow"
-          : "border-border/60 glass hover:border-primary/30 hover:-translate-y-0.5"
+          ? "border-primary/30 shadow-md"
+          : "border-border/70 shadow-sm hover:border-primary/30 hover:shadow-md"
       }`}
     >
-      {open && (
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
-      )}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-4 w-full py-5 px-5 text-left"
+        className="flex items-center gap-5 w-full py-5 px-5 text-left"
       >
         <span
-          className={`flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold tracking-wider transition-all ${
+          className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold tracking-wide ring-1 transition-colors ${
             open
-              ? "bg-gradient-hero text-primary-foreground shadow-glow"
-              : "bg-primary/10 text-primary group-hover:bg-primary/20"
+              ? "bg-primary/10 text-primary ring-primary/20"
+              : "bg-primary/5 text-primary/80 ring-primary/10 group-hover:bg-primary/10"
           }`}
         >
           {String(index + 1).padStart(2, "0")}
         </span>
-        <span className="flex-1 text-base md:text-lg font-semibold leading-snug">{item.q}</span>
+        <span className="flex-1 text-base md:text-lg font-semibold text-foreground leading-snug">
+          {item.q}
+        </span>
         <span
-          className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all ${
-            open ? "bg-primary/15 rotate-180" : "bg-accent/5 group-hover:bg-primary/10"
+          className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+            open
+              ? "bg-primary/10 text-primary rotate-180"
+              : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
           }`}
         >
-          <ChevronDown className="w-4 h-4 text-primary" />
+          <ChevronDown className="w-4 h-4" />
         </span>
       </button>
       <div
@@ -254,7 +255,7 @@ function Accordion({ item, index }: { item: Item; index: number }) {
         }`}
       >
         <div className="overflow-hidden">
-          <div className="px-5 pb-6 pl-[4.5rem] text-muted-foreground leading-relaxed text-sm md:text-base border-t border-border/40 pt-4 mt-1">
+          <div className="px-5 pb-6 pl-[4.75rem] text-muted-foreground leading-relaxed text-sm md:text-base">
             {item.a}
           </div>
         </div>
@@ -266,19 +267,18 @@ function Accordion({ item, index }: { item: Item; index: number }) {
 function Sidebar({ active, onSelect }: { active: string; onSelect: (id: string) => void }) {
   const activeIndex = sections.findIndex((s) => s.id === active);
   return (
-    <div className="relative lg:sticky lg:top-24">
-      <div className="absolute -inset-px rounded-3xl bg-gradient-hero opacity-20 blur-xl" />
-      <div className="relative glass bg-gradient-card rounded-3xl border border-border/60 p-5 overflow-hidden">
-        <div className="flex items-center gap-2 px-2 pb-4 mb-3 border-b border-border/40">
+    <div className="lg:sticky lg:top-24">
+      <div className="rounded-2xl border border-border/70 bg-muted/40 p-4 shadow-sm">
+        <div className="mb-5 flex items-center gap-3 px-2">
           <div className="w-8 h-8 rounded-lg bg-gradient-hero flex items-center justify-center shadow-glow">
             <BookOpen className="w-4 h-4 text-primary-foreground" />
           </div>
           <div>
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Docs</p>
-            <p className="text-sm font-bold leading-none mt-0.5">Contents</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Docs</p>
+            <p className="text-sm font-semibold leading-none mt-1">Contents</p>
           </div>
         </div>
-        <div className="flex flex-col gap-1">
+        <nav className="flex flex-col gap-1">
           {sections.map((s) => {
             const Icon = s.icon;
             const isActive = active === s.id;
@@ -286,49 +286,46 @@ function Sidebar({ active, onSelect }: { active: string; onSelect: (id: string) 
               <button
                 key={s.id}
                 onClick={() => onSelect(s.id)}
-                className={`group relative flex items-center gap-3 w-full py-3 px-3 rounded-xl text-sm transition-all duration-300 ${
+                className={`group flex items-center justify-between gap-3 w-full py-2.5 px-3 rounded-xl text-sm transition-all ${
                   isActive
-                    ? "bg-gradient-to-r from-primary/20 via-accent/10 to-transparent text-foreground"
-                    : "hover:bg-accent/5 text-muted-foreground hover:text-foreground hover:translate-x-1"
+                    ? "bg-card shadow-sm ring-1 ring-border"
+                    : "hover:bg-card/70"
                 }`}
               >
-                {isActive && (
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 rounded-r-full bg-gradient-hero shadow-glow" />
-                )}
-                <span
-                  className={`flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center transition-all ${
-                    isActive
-                      ? "bg-gradient-hero text-primary-foreground shadow-glow"
-                      : "bg-primary/5 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                </span>
-                <span className="flex-1 text-left min-w-0">
-                  <span className={`block truncate ${isActive ? "font-semibold" : "font-medium"}`}>
-                    {s.title}
+                <div className="flex items-center gap-3 min-w-0">
+                  <span
+                    className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
+                      isActive
+                        ? "bg-gradient-hero text-primary-foreground shadow-glow"
+                        : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
                   </span>
-                  <span className="block text-[11px] text-muted-foreground/70 truncate mt-0.5">
-                    {s.items.length} articles
-                  </span>
-                </span>
+                  <div className="min-w-0 text-left">
+                    <p className={`truncate text-sm ${isActive ? "font-semibold text-foreground" : "font-medium text-foreground/80"}`}>
+                      {s.title}
+                    </p>
+                    <p className="truncate text-[11px] text-muted-foreground mt-0.5">
+                      {s.items.length} articles
+                    </p>
+                  </div>
+                </div>
                 <ChevronRight
-                  className={`w-4 h-4 flex-shrink-0 transition-all ${
-                    isActive ? "text-primary translate-x-0.5" : "text-muted-foreground/40 group-hover:translate-x-0.5"
+                  className={`w-4 h-4 flex-shrink-0 transition-opacity ${
+                    isActive ? "text-muted-foreground/60 opacity-100" : "text-muted-foreground/40 opacity-0 group-hover:opacity-100"
                   }`}
                 />
               </button>
             );
           })}
-        </div>
-        <div className="mt-5 pt-4 border-t border-border/40">
-          <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
+        </nav>
+        <div className="mt-6 px-2">
+          <div className="flex justify-between text-[11px] font-semibold text-muted-foreground mb-2">
             <span>Progress</span>
-            <span className="font-semibold text-foreground">
-              {activeIndex + 1}/{sections.length}
-            </span>
+            <span>{activeIndex + 1}/{sections.length}</span>
           </div>
-          <div className="h-1.5 rounded-full bg-primary/10 overflow-hidden">
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-border/60">
             <div
               className="h-full bg-gradient-hero rounded-full transition-all duration-500"
               style={{ width: `${((activeIndex + 1) / sections.length) * 100}%` }}
@@ -366,15 +363,21 @@ function Documentation() {
       </nav>
 
       {/* Hero */}
-      <section className="relative pt-36 pb-16 overflow-hidden grid-bg">
-        <div className="absolute top-20 right-10 w-72 h-72 rounded-full bg-accent/20 blur-3xl animate-pulse-glow" />
-        <div className="absolute bottom-0 left-10 w-72 h-72 rounded-full bg-primary/20 blur-3xl animate-pulse-glow" />
+      <section className="relative pt-36 pb-20 overflow-hidden bg-background">
+        <div
+          className="absolute inset-0 opacity-[0.04] pointer-events-none"
+          style={{
+            backgroundImage: "radial-gradient(currentColor 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
+            color: "var(--primary)",
+          }}
+        />
         <div className="container mx-auto px-6 relative text-center max-w-3xl">
-          <Badge className="glass border-primary/30 gap-2 py-2 px-4 rounded-full mb-6">
-            <BookOpen className="w-3.5 h-3.5 text-accent" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 backdrop-blur px-3 py-1 text-xs font-medium text-muted-foreground mb-6">
+            <BookOpen className="w-3.5 h-3.5 text-primary" />
             Resources
-          </Badge>
-          <h1 className="text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">
+          </div>
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-[1.05] mb-6 text-foreground">
             Victa <span className="text-gradient">Documentation</span>
           </h1>
           <p className="text-lg text-muted-foreground leading-relaxed">
@@ -384,32 +387,32 @@ function Documentation() {
       </section>
 
       {/* Content */}
-      <section className="py-12 lg:py-16 relative">
-        <div className="container mx-auto px-6 relative">
-          <div className="flex flex-col lg:flex-row gap-8">
-            <aside className="lg:w-80 flex-shrink-0">
+      <section className="pb-24 relative">
+        <div className="container mx-auto px-6 relative max-w-7xl">
+          <div className="flex flex-col lg:flex-row gap-10">
+            <aside className="lg:w-72 flex-shrink-0">
               <Sidebar active={active} onSelect={setActive} />
             </aside>
 
             <div className="flex-1 min-w-0">
-              <Card className="glass bg-gradient-card border-border p-6 lg:p-10">
-                <div className="flex flex-col gap-1.5 mb-8">
-                  <h2 className="text-3xl font-black tracking-tight">
+              <div className="rounded-3xl border border-border bg-card p-6 lg:p-10 shadow-sm">
+                <header className="mb-8">
+                  <h2 className="text-3xl font-bold tracking-tight text-foreground">
                     {current.title}
                   </h2>
-                  <p className="text-muted-foreground">{current.subtitle}</p>
-                </div>
+                  <p className="mt-2 text-muted-foreground">{current.subtitle}</p>
+                </header>
                 <div className="space-y-4">
                   {current.items.map((item, i) => (
                     <Accordion key={item.id} item={item} index={i} />
                   ))}
                 </div>
 
-                <div className="mt-10 flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-border">
+                <div className="mt-12 flex flex-wrap items-center justify-between gap-4 pt-8 border-t border-border">
                   {sections.findIndex((s) => s.id === active) > 0 ? (
                     <Button
                       variant="outline"
-                      className="glass rounded-full"
+                      className="rounded-full"
                       onClick={() => {
                         const i = sections.findIndex((s) => s.id === active);
                         setActive(sections[i - 1].id);
@@ -434,7 +437,7 @@ function Documentation() {
                     </Button>
                   )}
                 </div>
-              </Card>
+              </div>
             </div>
           </div>
         </div>
